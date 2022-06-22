@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Viewing: {{user.get_full_name}}{% endblock %}
+
+{% block content %}
+<a href="/users"> Back </a>
+<h1>Viewing: {{user.get_full_name}}</h1>
+<img src="{{user.image_url}}" width="200">
+<br>
+
+<form>
+    <button formaction="/users/{{user.id}}/edit" formmethod="GET" class="btn btn-primary">Edit</button>
+    <button formaction="/users/{{user.id}}/delete" formmethod="POST" class="btn btn-danger">Delete</button>
+</form>
+{% endblock %}
