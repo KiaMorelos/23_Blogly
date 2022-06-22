@@ -36,7 +36,7 @@ class FlaskTests(TestCase):
             self.assertIn(b'Users', content)
 
     def test_users(self):
-        """Test that root route works, and has expected content"""
+        """Test that users route works, and has expected content"""
         with app.test_client() as client:
             res = client.get('/users', follow_redirects=True)
             content = res.data
@@ -45,6 +45,7 @@ class FlaskTests(TestCase):
 
 
     def test_add_user_form(self):
+        """test make new user form route"""
         with app.test_client() as client:
             res = client.get('/users/new')
             content = res.data
@@ -54,6 +55,7 @@ class FlaskTests(TestCase):
 
     def test_add_user(self):
         with app.test_client() as client:
+            """test post route for a new user"""
             d = {"firstname" : "John", "lastname" : "Smith", "url": f"{default_image_url}"}
             res = client.post('/users/new', data=d, follow_redirects=True)
             content = res.get_data(as_text=True)
@@ -61,6 +63,7 @@ class FlaskTests(TestCase):
             self.assertIn('John Smith', content)
     
     def test_view_user(self):
+        """test view route for existing user"""
         with app.test_client() as client:
             res = client.get(f'/users/{self.user_id}')
             content = res.get_data(as_text=True)

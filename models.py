@@ -4,7 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-default_image_url = "https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2013/png/iconmonstr-smiley-8.png&r=0&g=0&b=0"
+#Placeholder kitten photos
+default_image_url = "http://placekitten.com/g/500/500"
 
 class User(db.Model):
     """User"""

@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>Create a user</h1>
-<form>
+<form method="POST">
     <div class="form-group">
         <label for="first name">First Name</label>
          <input type="text" placeholder="Enter a first name" name="firstname" class="form-control" >
@@ -17,6 +17,7 @@
          <label for="profile image url">Profile Image Url</label>
          <input type="text" placeholder="Enter an image url" name="url" class="form-control" >
     </div>
+    <a href="/users" class="btn btn-outline-secondary">Cancel</a>
 
     <button type="submit" class="btn btn-success">Add</button>
 </form>
