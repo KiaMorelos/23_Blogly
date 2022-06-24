@@ -2,7 +2,7 @@
 from flask import Flask, request, redirect, render_template
 from flask_debugtoolbar import DebugToolbarExtension
 
-from models import db, connect_db, User
+from models import db, connect_db, User, Post
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "its_a_secret_to_everybody"
@@ -20,6 +20,7 @@ def home():
     """Home Page"""
     return redirect('/users')
 
+### Users Routes ###
 @app.route('/users')
 def user_list_page():
     """Users Page View"""
@@ -29,7 +30,7 @@ def user_list_page():
 @app.route('/users/new', methods=['GET'])
 def get_user_form():
     """Add User Form View"""
-    return render_template('add-new.html')
+    return render_template('add-new-user.html')
     
 @app.route('/users/new', methods=['POST'])
 def add_new_user():
@@ -53,7 +54,7 @@ def show_user(user_id):
 def edit_user_form(user_id):
     """Edit User Form View"""
     user = User.query.get_or_404(user_id)
-    return render_template('edit-details.html', user=user)
+    return render_template('edit-user-details.html', user=user)
 
 @app.route('/users/<int:user_id>/edit', methods=['POST'])
 def edit_user(user_id):
@@ -75,3 +76,66 @@ def delete_user(user_id):
     db.session.delete(user)
     db.session.commit()
     return redirect('/users')
+
+### Posts Routes ###
+@app.route('/all-posts')
+def show_all_posts():
+    """Show all posts"""
+    posts = Post.query.order_by(Post.title).all()
+
+    return render_template('all-posts.html', posts=posts)
+
+@app.route('/users/<int:user_id>/posts/new')
+def new_post_form(user_id):
+    """Show New Post Form View"""
+    user = User.query.get_or_404(user_id)
+    return render_template('add-post-form.html', user=user)
+
+@app.route('/users/<int:user_id>/posts/new', methods=['POST'])
+def add_new_post(user_id):
+    """New Post Form Submit"""
+    
+    user = User.query.get_or_404(user_id)
+    new_post = Post(title=request.form['title'],
+                    content=request.form['content'],
+                    user=user)
+
+    db.session.add(new_post)
+    db.session.commit()
+
+    return redirect(f'/users/{user_id}')
+
+@app.route('/posts/<int:post_id>')
+def show_post(post_id):
+    """Show Individual Post view with edit and delete buttons"""
+    post = Post.query.get_or_404(post_id)
+    return render_template('post-details.html', post=post)
+
+@app.route('/posts/<int:post_id>/edit')
+def edit_post_form(post_id):
+    """Edit Post Form View"""
+    post = Post.query.get_or_404(post_id)
+    return render_template('edit-post.html', post=post)
+
+@app.route('/posts/<int:post_id>/edit', methods=['POST'])
+def edit_post(post_id):
+    """Edit Post Form Submit"""
+    post = Post.query.get_or_404(post_id)
+    post.title = request.form['title']
+    post.content = request.form['content']
+    
+    db.session.add(post)
+    db.session.commit()
+    return redirect(f'/posts/{post_id}')
+
+@app.route('/posts/<int:post_id>/delete', methods=['POST'])
+def delete_post(post_id):
+    """Delete a Post"""
+    post = Post.query.get_or_404(post_id)
+    user = post.user.id
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(f'/users/{user}')
+
+
+

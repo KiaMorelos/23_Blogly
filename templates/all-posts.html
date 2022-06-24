@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Blogly Posts{% endblock %}
+
+{% block content %}
+<h1>All Posts</h1>
+<ul>
+    {% if posts %}
+        {% for post in posts %}
+            <li><a href="/posts/{{post.id}}">{{post.title}}</a></li>
+        {% endfor %}
+    {% else %}
+        No posts yet
+    {% endif %}
+</ul>
+{% endblock %}

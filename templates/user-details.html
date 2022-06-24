@@ -6,10 +6,21 @@
 <a href="/users"> Back </a>
 <h1>Viewing: {{user.get_full_name}}</h1>
 <img src="{{user.image_url}}" width="200">
-<br>
-
-<form>
+<form class="mt-2">
     <button formaction="/users/{{user.id}}/edit" formmethod="GET" class="btn btn-primary">Edit</button>
     <button formaction="/users/{{user.id}}/delete" formmethod="POST" class="btn btn-danger">Delete</button>
 </form>
+<br>
+<h2>Posts:</h2>
+    <ul>
+        {% if user.posts %}
+            {% for post in user.posts %}
+                <li><a href="/posts/{{post.id}}">{{post.title}}</a></li>
+            {% endfor %}
+        {% else %}
+            No posts yet
+        {% endif %}
+    </ul>
+    <a href="/users/{{user.id}}/posts/new" class="btn btn-success mb-5">New Post</a>
+
 {% endblock %}

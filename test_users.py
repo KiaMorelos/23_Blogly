@@ -1,9 +1,8 @@
-from this import d
 from unittest import TestCase
 from app import app
 from models import db, User, default_image_url
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///users_test_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_test_db'
 app.config['SQLALCHEMY_ECHO'] = False
 
 db.drop_all()
