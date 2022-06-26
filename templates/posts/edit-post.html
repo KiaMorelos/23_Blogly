@@ -13,6 +13,17 @@
          <label for="content">Content</label>
          <textarea type="text" placeholder="Enter content" name="content" class="form-control" required></textarea>
      </div>
+     <h3>Add a tag:</h3>
+     {% if tags %}
+         {% for tag in tags %}
+             <label for="content">{{tag.name}}</label>
+             <input type="checkbox" name="tag-name" class="form control" value="{{tag.id}}">
+             <br>
+         {% endfor %}
+     {% else %}
+     No tags available yet. <a href="/tags/new">Create some here >></a>
+     {% endif %}
+     
     <a href="/users/{{post.user.id}}" class="btn btn-outline-secondary">Cancel</a>
 
     <button type="submit" class="btn btn-success">Edit</button>

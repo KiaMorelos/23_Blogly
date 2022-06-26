@@ -37,8 +37,9 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-
+    
     tags = db.relationship('Tag', secondary="post_tags", backref="posts")
+
 
     def __repr__(self):
         """Show info about post object"""
@@ -51,6 +52,8 @@ class Tag(db.Model):
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Text, nullable=False, unique=True)
+
+    # tags = db.relationship('Post', secondary="post_tags", backref="tags")
 
     def __repr__(self):
         """Show info about post object"""

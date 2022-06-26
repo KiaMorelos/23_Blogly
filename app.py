@@ -97,13 +97,16 @@ def add_new_post(user_id):
     """New Post Form Submit"""
     
     user = User.query.get_or_404(user_id)
+    tag_ids = [int(tag_id) for tag_id in request.form.getlist("tag-name")]
+    tags = Tag.query.filter(Tag.id.in_(tag_ids)).all()
+
     new_post = Post(title=request.form['title'],
                     content=request.form['content'],
-                    user=user)
+                    user=user,
+                    tags=tags)
 
     db.session.add(new_post)
     db.session.commit()
-
     return redirect(f'/users/{user_id}')
 
 @app.route('/posts/<int:post_id>')
@@ -116,7 +119,8 @@ def show_post(post_id):
 def edit_post_form(post_id):
     """Edit Post Form View"""
     post = Post.query.get_or_404(post_id)
-    return render_template('/posts/edit-post.html', post=post)
+    tags = Tag.query.order_by(Tag.name).all()
+    return render_template('/posts/edit-post.html', post=post, tags=tags)
 
 @app.route('/posts/<int:post_id>/edit', methods=['POST'])
 def edit_post(post_id):
@@ -124,6 +128,9 @@ def edit_post(post_id):
     post = Post.query.get_or_404(post_id)
     post.title = request.form['title']
     post.content = request.form['content']
+
+    tag_ids = [int(tag_id) for tag_id in request.form.getlist("tag-name")]
+    post.tags = Tag.query.filter(Tag.id.in_(tag_ids)).all()
     
     db.session.add(post)
     db.session.commit()
