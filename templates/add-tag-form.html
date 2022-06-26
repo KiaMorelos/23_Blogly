@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Create a tag{% endblock %}
+
+{% block content %}
+<h1>Create a tag</h1>
+<form method="POST">
+    <div class="form-group">
+        <label for="Name">Name</label>
+         <input type="text" placeholder="Enter a name" name="name" class="form-control" required>
+     </div>
+    
+    <a href="/users" class="btn btn-outline-secondary">Cancel</a>
+
+    <button type="submit" class="btn btn-success">Add</button>
+</form>
+{% endblock %}

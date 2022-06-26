@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Viewing tag: {{tag.name}}{% endblock %}
+
+{% block content %}
+<a href="/tags"> Back </a>
+<h1>Viewing tag: {{tag.name}}</h1>
+<form class="mt-2">
+    <button formaction="/tags/{{tag.id}}/edit" formmethod="GET" class="btn btn-primary">Edit</button>
+    <button formaction="/tags/{{tag.id}}/delete" formmethod="POST" class="btn btn-danger">Delete</button>
+</form>
+<br>
+<h2>Posts tagged {{tag.name}}:</h2>
+    <ul>
+        {% if tag.posts %}
+            {% for post in tag.posts %}
+                <li><a href="/posts/{{post.id}}">{{post.title}}</a></li>
+            {% endfor %}
+        {% else %}
+            No posts yet with this tag
+        {% endif %}
+    </ul>
+{% endblock %}
