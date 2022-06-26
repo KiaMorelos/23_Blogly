@@ -25,12 +25,12 @@ def home():
 def user_list_page():
     """Users Page View"""
     users = User.query.order_by(User.last_name, User.first_name).all()
-    return render_template('all-users.html', users=users)
+    return render_template('/users/all-users.html', users=users)
 
 @app.route('/users/new', methods=['GET'])
 def get_user_form():
     """Add User Form View"""
-    return render_template('add-new-user.html')
+    return render_template('/users/add-new-user.html')
     
 @app.route('/users/new', methods=['POST'])
 def add_new_user():
@@ -48,13 +48,13 @@ def add_new_user():
 def show_user(user_id):
     """View User Details"""
     user = User.query.get_or_404(user_id)
-    return render_template('user-details.html', user=user)
+    return render_template('/users/user-details.html', user=user)
 
 @app.route('/users/<int:user_id>/edit')
 def edit_user_form(user_id):
     """Edit User Form View"""
     user = User.query.get_or_404(user_id)
-    return render_template('edit-user-details.html', user=user)
+    return render_template('/users/edit-user-details.html', user=user)
 
 @app.route('/users/<int:user_id>/edit', methods=['POST'])
 def edit_user(user_id):
@@ -83,14 +83,14 @@ def show_all_posts():
     """Show all posts"""
     posts = Post.query.order_by(Post.title).all()
 
-    return render_template('all-posts.html', posts=posts)
+    return render_template('/posts/all-posts.html', posts=posts)
 
 @app.route('/users/<int:user_id>/posts/new')
 def new_post_form(user_id):
     """Show New Post Form View"""
     user = User.query.get_or_404(user_id)
     tags = Tag.query.order_by(Tag.name).all()
-    return render_template('add-post-form.html', user=user, tags=tags)
+    return render_template('/posts/add-post-form.html', user=user, tags=tags)
 
 @app.route('/users/<int:user_id>/posts/new', methods=['POST'])
 def add_new_post(user_id):
@@ -110,13 +110,13 @@ def add_new_post(user_id):
 def show_post(post_id):
     """Show Individual Post view with edit and delete buttons"""
     post = Post.query.get_or_404(post_id)
-    return render_template('post-details.html', post=post)
+    return render_template('/posts/post-details.html', post=post)
 
 @app.route('/posts/<int:post_id>/edit')
 def edit_post_form(post_id):
     """Edit Post Form View"""
     post = Post.query.get_or_404(post_id)
-    return render_template('edit-post.html', post=post)
+    return render_template('/posts/edit-post.html', post=post)
 
 @app.route('/posts/<int:post_id>/edit', methods=['POST'])
 def edit_post(post_id):
@@ -144,18 +144,18 @@ def delete_post(post_id):
 def tag_list():
     """Show List View of all Tags with Links to tag details"""
     tags = Tag.query.order_by(Tag.name).all()
-    return render_template('all-tags.html', tags=tags)
+    return render_template('/tags/all-tags.html', tags=tags)
 
 @app.route('/tags/<int:tag_id>')
 def tag_details(tag_id):
     """Tag Detail Page View"""
     tag = Tag.query.get_or_404(tag_id)
-    return render_template('tag-details.html', tag=tag)
+    return render_template('/tags/tag-details.html', tag=tag)
 
 @app.route('/tags/new')
 def new_tag_form():
     """Show Add Tag Form View"""
-    return render_template('add-tag-form.html')
+    return render_template('tags/add-tag-form.html')
 
 @app.route('/tags/new', methods=['POST'])
 def new_tag():
@@ -171,7 +171,7 @@ def new_tag():
 def edit_tag_form(tag_id):
     """Edit existing tag, show form view"""
     tag = Tag.query.get_or_404(tag_id)
-    return render_template('edit-tag.html', tag=tag)
+    return render_template('/tags/edit-tag.html', tag=tag)
 
 @app.route('/tags/<int:tag_id>/edit', methods=['POST'])
 def edit_tag(tag_id):
@@ -184,7 +184,7 @@ def edit_tag(tag_id):
 
     return redirect('/tags')
 
-@app.route('//tags/<int:tag_id>/delete', methods=['POST'])
+@app.route('/tags/<int:tag_id>/delete', methods=['POST'])
 def delete_tag(tag_id):
     """Delete Tag"""
     tag = Tag.query.get_or_404(tag_id)    
